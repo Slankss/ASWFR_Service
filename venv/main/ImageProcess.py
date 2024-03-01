@@ -3,8 +3,8 @@ import pybase64
 import base64
 
 
-def base64_to_image():
-    decodedData = pybase64.b64decode(image_base64)
+def base64_to_image(base64):
+    decodedData = pybase64.b64decode(base64)
     image = open("decodedImage.jpeg", "wb")
     image.write(decodedData)
     image.close()
@@ -17,5 +17,3 @@ def image_to_base64():
     base64 = image_bytes.decode()
     print(base64)
 
-
-image_to_base64()
