@@ -1,30 +1,26 @@
 import cv2
-import ImageProcess as imgP
-import Constant as c
+import Constant
 import face_recognition
-
-face_cascade_path = "src/haarcascade_frontalface_default.xml"
-face_cascade = cv2.CascadeClassifier(face_cascade_path)
-
-imgP.base64_to_image(c.image_base64)
-def find_face_encodings(imagePath):
+import threading
+import ImageProcess
+def find_face(imagePath):
     image = cv2.imread(imagePath)
-    face_enc = face_recognition.face_encodings(image)
-    if len(face_enc) > 0:
-        return face_enc[0]
-def is_same(image):
-    face1 = find_face_encodings("src/decodedImage.jpeg")
-    face2 = find_face_encodings(image)
+    face = face_recognition.face_encodings(image)
+    if len(face) > 0:
+        return face[0]
+def face_matching(base64Image):
+    try:
+        base64Decode = threading.Thread(target=ImageProcess.base64_to_image(base64Image))
+        base64Decode.start()
+        base64Decode.join()
 
-    isSame = face_recognition.compare_faces([face1],face2)[0]
-    return isSame
+        face1 = find_face("src/image1.jpeg")
+        face2 = find_face("src/decodedImage.jpeg")
 
+        if face1 is None or face2 is None:
+            return "there are not faces in images"
 
-
-
-
-
-
-
-
-
+        isSame = face_recognition.compare_faces([face1],face2)[0]
+        return isSame
+    except:
+        return "Error"

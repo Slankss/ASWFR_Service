@@ -2,3 +2,4 @@ pybase64
 opencv-python
 opencv-contrib-python
 face-recognition
+firebase-admin
