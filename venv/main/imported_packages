@@ -3,3 +3,4 @@ opencv-python
 opencv-contrib-python
 face-recognition
 firebase-admin
+google-cloud-storage
