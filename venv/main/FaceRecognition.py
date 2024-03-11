@@ -25,8 +25,6 @@ def get_user_list_db(q):
 
 def download_image(image_path):
     Database.downloadImage(image_path)
-
-
 def access(base64Image):
     try:
         q = queue.Queue()
