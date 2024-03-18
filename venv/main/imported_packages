@@ -5,3 +5,4 @@ face-recognition
 firebase-admin
 flask
 google-cloud-storage
+jsonify

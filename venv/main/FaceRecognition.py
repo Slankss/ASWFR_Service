@@ -14,8 +14,8 @@ def find_face(imagePath):
         return face[0]
 
 
-def base64_decode(base64Image):
-    ImageProcess.base64_to_image(base64Image)
+def base64_decode(base64Image,dest_image):
+    ImageProcess.base64_to_image(base64Image,dest_image)
 
 
 def get_user_list_db(q):
@@ -29,7 +29,7 @@ def access(base64Image):
     try:
         q = queue.Queue()
 
-        base64Decode_thread = threading.Thread(target=base64_decode(base64Image))
+        base64Decode_thread = threading.Thread(target=base64_decode(base64Image,"decoded_image"))
         get_user_list_thread = threading.Thread(target=get_user_list_db, args=(q,))
 
         base64Decode_thread.start()
