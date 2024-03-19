@@ -1,5 +1,4 @@
 import cv2
-import Constant
 import face_recognition
 import threading
 import ImageProcess

@@ -2,7 +2,7 @@ import cv2
 import firebase_admin
 from firebase_admin import credentials, firestore, storage
 from model import User as model
-import Constant
+from utils import Constant
 import numpy
 
 credentialData = credentials.Certificate("key/serviceAccountKey.json")
