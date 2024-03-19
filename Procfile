@@ -1,1 +1,1 @@
-web: gunicorn acwfr:app --log-file
+web: gunicorn acwfr:app --log-file -
