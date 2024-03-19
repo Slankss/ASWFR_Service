@@ -1,7 +1,8 @@
-import threading
 import time
-from service import ImageJob,Database,FaceRecognition
-from flask import Flask, render_template, request,jsonify
+import FaceRecognition
+import Database
+import ImageJob
+from flask import Flask, jsonify
 app = Flask(__name__)
 @app.route("/")
 def SayHello():

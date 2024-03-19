@@ -1,15 +1,15 @@
 import firebase_admin
 from firebase_admin import credentials, firestore, storage
-from service.model import User
+from model import User
 
-credentialData = credentials.Certificate("service/key/serviceAccountKey.json")
+credentialData = credentials.Certificate("key/serviceAccountKey.json")
 app = firebase_admin.initialize_app(credentialData, {'storageBucket': 'acwfrdb.appspot.com'})
 bucket = storage.bucket()
 db = firebase_admin.firestore.client()
 
 def downloadImage(imagePath):
     try:
-        with open("service/src/image_from_db.jpg", "wb") as f:
+        with open("src/image_from_db.jpg", "wb") as f:
             blob = bucket.blob(imagePath)
             imageBytes = blob.download_as_bytes()
             f.write(imageBytes)
@@ -18,7 +18,7 @@ def downloadImage(imagePath):
 def uploadImage(image_name):
     try:
         blob = bucket.blob("images/" + image_name + ".jpg")
-        blob.upload_from_filename("service/src/added_image.jpg")
+        blob.upload_from_filename("src/added_image.jpg")
     except Exception as e:
         print(e)
 def getUserList():
