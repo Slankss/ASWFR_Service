@@ -1,6 +1,6 @@
 import threading
 import time
-#from service import FaceRecognition,Database,ImageJob
+from service import ImageJob#,Database,FaceRecognition
 from flask import Flask, render_template, request,jsonify
 app = Flask(__name__)
 @app.route("/")
