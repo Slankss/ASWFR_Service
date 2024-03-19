@@ -3,7 +3,7 @@ opencv-python
 opencv-contrib-python
 face-recognition
 firebase-admin
-flask
+flask~=3.0.2
 google-cloud-storage
 jsonify
 gunicorn

@@ -14,7 +14,7 @@ def find_face(imagePath):
 
 
 def base64_decode(base64Image,dest_image):
-    ImageProcess.base64_to_image(base64Image,dest_image)
+    ImageProcess.base64_to_image(base64Image, dest_image)
 
 
 def get_user_list_db(q):
