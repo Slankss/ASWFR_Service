@@ -1,1 +1,1 @@
-web: gunicorn ACWFR_Service/venv/main/acwfr:app --log-file -
+web: gunicorn test:app --log-file -
