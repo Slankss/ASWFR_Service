@@ -1,11 +1,9 @@
 import queue
 import threading
-
 import cv2
 import face_recognition
-
-import Database
-import ImageJob
+from service import Database
+from service import ImageJob
 
 
 def find_face(imagePath):
@@ -54,8 +52,8 @@ def face_macthing(image_path):
     download_image_thread.start()
     download_image_thread.join()
 
-    face1 = find_face("src/decoded_image.jpg")
-    face2 = find_face("src/image_from_db.jpg")
+    face1 = find_face("service/src/decoded_image.jpg")
+    face2 = find_face("service/src/image_from_db.jpg")
 
     if face1 is None or face2 is None:
         return False

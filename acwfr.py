@@ -1,10 +1,7 @@
 import threading
-
 import time
+from service import FaceRecognition,Database,ImageJob
 from flask import Flask, render_template, request,jsonify
-
-#from service import FaceRecognition, Database, ImageJob
-
 app = Flask(__name__)
 @app.route("/")
 def SayHello():
@@ -14,7 +11,6 @@ def SayHello():
 def SayFenerAglama():
     return "Fener Ağlama"
 
-"""
 @app.route("/AccessRequest")
 def AccessRequest():
     data = request.json
@@ -42,7 +38,7 @@ def AddUser():
     surname = data["surname"]
     image = data["image"]
 
-    base64DecodeThread = threading.Thread(target=ImageProcess.base64_to_image(image,"added_image"))
+    base64DecodeThread = threading.Thread(target=ImageJob.base64_to_image(image,"added_image"))
     addUserThread = threading.Thread(target=Database.addUser(username, name, surname))
     uploadImageThread = threading.Thread(target=Database.uploadImage(name + "_" + surname))
 
@@ -52,7 +48,6 @@ def AddUser():
     uploadImageThread.start()
 
     return ""
-"""
 
 if __name__ == "__main__":
     app.run(debug=True)

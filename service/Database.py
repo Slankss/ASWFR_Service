@@ -1,19 +1,15 @@
-import cv2
 import firebase_admin
 from firebase_admin import credentials, firestore, storage
-from model import User as model
-from utils import Constant
-import numpy
+from service.model import User
 
-credentialData = credentials.Certificate("key/serviceAccountKey.json")
+credentialData = credentials.Certificate("service/key/serviceAccountKey.json")
 app = firebase_admin.initialize_app(credentialData, {'storageBucket': 'acwfrdb.appspot.com'})
 bucket = storage.bucket()
 db = firebase_admin.firestore.client()
 
-
 def downloadImage(imagePath):
     try:
-        with open("src/image_from_db.jpg", "wb") as f:
+        with open("service/src/image_from_db.jpg", "wb") as f:
             blob = bucket.blob(imagePath)
             imageBytes = blob.download_as_bytes()
             f.write(imageBytes)
@@ -22,7 +18,7 @@ def downloadImage(imagePath):
 def uploadImage(image_name):
     try:
         blob = bucket.blob("images/" + image_name + ".jpg")
-        blob.upload_from_filename("src/added_image.jpg")
+        blob.upload_from_filename("service/src/added_image.jpg")
     except Exception as e:
         print(e)
 def getUserList():
@@ -31,16 +27,16 @@ def getUserList():
     for doc in collection.stream():
         data = doc.to_dict()
 
-        name = data["name"]
-        surname = data["surname"]
-        company = data["company"]
-        image_path = data["image_path"]
-        user = model.User(name, surname, company, image_path)
+        user = User
+        user.name = data["name"]
+        user.surname = data["surname"]
+        user.company = data["company"]
+        user.image_path = data["image_path"]
+        #user = User(name, surname, company, image_path)
 
         userList.append(user)
 
     return userList
-
 
 def login(username, password):
     collection = db.collection("Manager")
@@ -59,7 +55,7 @@ def addUser(username,name,surname):
     managerQuery = managerCollection.where("username","==",username).limit(1).get()
 
     if len(managerQuery) == 0:
-        return false
+        return False
 
     company = managerQuery[0].to_dict()["company"]
     image_path = "images/"+name +"_"+surname+".jpg"
