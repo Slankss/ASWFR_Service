@@ -1,1 +1,1 @@
-web: venv/acwfr:app
+web: gunicorn service/acwfr:app
