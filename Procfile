@@ -1,1 +1,1 @@
-web: gunicorn service-acwfr:app
+web: gunicorn acwfr:app

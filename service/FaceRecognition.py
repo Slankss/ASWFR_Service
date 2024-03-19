@@ -1,9 +1,11 @@
+import queue
+import threading
+
 import cv2
 import face_recognition
-import threading
-import ImageProcess
+
 import Database
-import queue
+import ImageJob
 
 
 def find_face(imagePath):
@@ -12,7 +14,7 @@ def find_face(imagePath):
     if len(face) > 0:
         return face[0]
 def base64_decode(base64Image,dest_image):
-    ImageProcess.base64_to_image(base64Image, dest_image)
+    ImageJob.base64_to_image(base64Image, dest_image)
 
 def get_user_list_db(q):
     userList = Database.getUserList()

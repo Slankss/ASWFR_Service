@@ -1,14 +1,19 @@
 import threading
-import FaceRecognition
-import ImageProcess
-import Database
+
 import time
 from flask import Flask, render_template, request,jsonify
+
+#from service import FaceRecognition, Database, ImageJob
 
 app = Flask(__name__)
 @app.route("/")
 def SayHello():
     return "Hello World"
+
+def SayFenerAglama():
+    return "Fener Ağlama"
+
+"""
 @app.route("/AccessRequest")
 def AccessRequest():
     data = request.json
@@ -46,6 +51,7 @@ def AddUser():
     uploadImageThread.start()
 
     return ""
+"""
 
 if __name__ == "__main__":
     app.run(debug=True)

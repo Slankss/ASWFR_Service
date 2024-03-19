@@ -1,15 +1,14 @@
 import pybase64
 import base64
 
-def base64_to_image(base64,dest_image):
+def base64_to_image(base64, dest_image):
     try:
         decodedData = pybase64.b64decode(base64)
-        image = open("src/"+dest_image+".jpg", "wb")
+        image = open("src/" + dest_image + ".jpg", "wb")
         image.write(decodedData)
         image.close()
     except:
         return None
-
 
 def image_to_base64():
     image = open("originalImage.jpg", "rb")
