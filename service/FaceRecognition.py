@@ -11,16 +11,12 @@ def find_face(imagePath):
     face = face_recognition.face_encodings(image)
     if len(face) > 0:
         return face[0]
-
-
 def base64_decode(base64Image,dest_image):
     ImageProcess.base64_to_image(base64Image, dest_image)
-
 
 def get_user_list_db(q):
     userList = Database.getUserList()
     q.put(userList)
-
 
 def download_image(image_path):
     Database.downloadImage(image_path)
@@ -56,11 +52,11 @@ def face_macthing(image_path):
     download_image_thread.start()
     download_image_thread.join()
 
-    face1 = find_face("src/decodedImage.jpg")
+    face1 = find_face("src/decoded_image.jpg")
     face2 = find_face("src/image_from_db.jpg")
 
     if face1 is None or face2 is None:
-        return
+        return False
 
     return face_recognition.compare_faces([face1], face2)[0]
 
