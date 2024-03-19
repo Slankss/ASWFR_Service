@@ -7,6 +7,10 @@ import ImageProcess
 import Database
 
 app = Flask(__name__)
+
+@app.route("/")
+def SayHello():
+    return "Hello World"
 @app.route("/AccessRequest")
 def AccessRequest():
     data = request.json
