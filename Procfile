@@ -1,1 +1,1 @@
-web: gunicorn venv/main/acwfr:app
+web: gunicorn venv/main/test:app
