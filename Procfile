@@ -1,1 +1,2 @@
-web: gunicorn venv acwfr:app
+export PYTHONPATH=venv/
+web: gunicorn acwfr:app
