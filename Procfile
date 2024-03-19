@@ -1,1 +1,0 @@
-web: gunicorn venv/main/acwfr:app --log-file -
