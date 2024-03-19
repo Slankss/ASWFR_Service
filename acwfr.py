@@ -10,6 +10,7 @@ app = Flask(__name__)
 def SayHello():
     return "Hello World"
 
+@app.route("/FenerAglama")
 def SayFenerAglama():
     return "Fener Ağlama"
 
