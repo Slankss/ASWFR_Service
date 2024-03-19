@@ -2,9 +2,8 @@ import queue
 import threading
 import cv2
 import face_recognition
-from service import Database
-from service import ImageJob
-
+import Database
+import ImageJob
 
 def find_face(imagePath):
     image = cv2.imread(imagePath)

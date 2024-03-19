@@ -1,8 +1,9 @@
 import time
+import threading
 import FaceRecognition
 import Database
 import ImageJob
-from flask import Flask, jsonify
+from flask import Flask, jsonify,request
 app = Flask(__name__)
 @app.route("/")
 def SayHello():
@@ -12,7 +13,6 @@ def SayHello():
 def SayFenerAglama():
     return "Fener Ağlama"
 
-"""
 @app.route("/AccessRequest")
 def AccessRequest():
     data = request.json
@@ -50,7 +50,7 @@ def AddUser():
     uploadImageThread.start()
 
     return ""
-"""
+
 if __name__ == "__main__":
     app.run(debug=True)
 
