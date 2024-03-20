@@ -1,7 +1,7 @@
 import queue
 import threading
 import cv2
-import face_recognition
+# import face_recognition
 import Database
 import ImageJob
 
