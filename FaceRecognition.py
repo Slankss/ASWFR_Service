@@ -6,7 +6,7 @@ import Database
 import ImageJob
 def find_face(imagePath):
     with open(imagePath,"rb") as f:
-        image = cv2.imread(f)
+        image = cv2.imread(imagePath)
         #image = face_recognition.load_image_file(f)
         face = face_recognition.face_encodings(image)
         if len(face) > 0:
