@@ -1,15 +1,18 @@
 import queue
 import threading
 #import cv2
-# import face_recognition
+import face_recognition
 import Database
 import ImageJob
-
 def find_face(imagePath):
     #image = cv2.imread(imagePath)
-    face = () #face_recognition.face_encodings(image)
-    if len(face) > 0:
-        return face[0]
+    with open(imagePath,"rb") as f:
+        image = face_recognition.load_image_file(f)
+        face = face_recognition.face_encodings(image)
+        if len(face) > 0:
+            return face[0]
+
+
 def base64_decode(base64Image,dest_image):
     ImageJob.base64_to_image(base64Image, dest_image)
 
@@ -36,7 +39,7 @@ def access(base64Image):
         is_there_in_db = False
 
         for user in userList:
-            result = False #face_matching(user.image_path)
+            result = face_matching(user.image_path)
             if result:
                 is_there_in_db = True
                 break
@@ -46,7 +49,6 @@ def access(base64Image):
         return "Error"
 
 
-"""
 def face_matching(image_path):
     download_image_thread = threading.Thread(target=download_image(image_path))
     download_image_thread.start()
@@ -59,5 +61,3 @@ def face_matching(image_path):
         return False
 
     return face_recognition.compare_faces([face1], face2)[0]
-
-"""
