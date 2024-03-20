@@ -1,7 +1,4 @@
 pybase64
-queue
-cv2
-threading
 opencv-python
 opencv-contrib-python
 face_recognition
