@@ -2,6 +2,8 @@ pybase64
 opencv-python
 opencv-contrib-python
 face-recognition
+face-recognition-models
+
 firebase-admin
 flask~=3.0.2
 google-cloud-storage
