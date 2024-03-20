@@ -1,6 +1,6 @@
 import time
 import threading
-#import FaceRecognition
+import FaceRecognition
 import Database
 import ImageJob
 from flask import Flask, jsonify, request
@@ -20,8 +20,8 @@ def AccessRequest():
 
     if data is None or len(imageB64) == 0:
         return ""
-    #result = FaceRecognition.access(data["image"])
-    return ""#str(result)
+    result = FaceRecognition.access(data["image"])
+    return str(result)
 
 @app.route("/Login")
 def Login():
