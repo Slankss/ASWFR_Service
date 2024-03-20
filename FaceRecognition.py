@@ -1,12 +1,12 @@
 import queue
 import threading
-import cv2
+#import cv2
 # import face_recognition
 import Database
 import ImageJob
 
 def find_face(imagePath):
-    image = cv2.imread(imagePath)
+    #image = cv2.imread(imagePath)
     face = () #face_recognition.face_encodings(image)
     if len(face) > 0:
         return face[0]
