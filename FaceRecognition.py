@@ -4,23 +4,29 @@ import cv2
 import face_recognition
 import Database
 import ImageJob
-def find_face(imagePath):
-    with open(imagePath,"rb") as f:
-        image = cv2.imread(imagePath)
-        #image = face_recognition.load_image_file(f)
-        face = face_recognition.face_encodings(image)
-        if len(face) > 0:
-            return face[0]
 
-def base64_decode(base64Image,dest_image):
+
+def find_face(imagePath):
+    image = cv2.imread(imagePath)
+    # image = face_recognition.load_image_file(f)
+    face = face_recognition.face_encodings(image)
+    if len(face) > 0:
+        return face[0]
+
+
+def base64_decode(base64Image, dest_image):
     ImageJob.base64_to_image(base64Image, dest_image)
+
 
 def get_user_list_db(q):
     userList = Database.getUserList()
     q.put(userList)
 
+
 def download_image(image_path):
     Database.downloadImage(image_path)
+
+
 def access(base64Image):
     try:
         q = queue.Queue()
