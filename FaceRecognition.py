@@ -1,17 +1,16 @@
 import queue
 import threading
-#import cv2
+import cv2
 import face_recognition
 import Database
 import ImageJob
 def find_face(imagePath):
-    #image = cv2.imread(imagePath)
     with open(imagePath,"rb") as f:
-        image = face_recognition.load_image_file(f)
+        image = cv2.imread(f)
+        #image = face_recognition.load_image_file(f)
         face = face_recognition.face_encodings(image)
         if len(face) > 0:
             return face[0]
-
 
 def base64_decode(base64Image,dest_image):
     ImageJob.base64_to_image(base64Image, dest_image)
