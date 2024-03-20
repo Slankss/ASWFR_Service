@@ -1,11 +1,10 @@
 pybase64
 opencv-python
 opencv-contrib-python
-face-recognition
-face-recognition-models
-
+face_recognition
+face_recognition-models
 firebase-admin
-flask~=3.0.2
+flask
 google-cloud-storage
 jsonify
 gunicorn

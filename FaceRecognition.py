@@ -23,7 +23,7 @@ def access(base64Image):
     try:
         q = queue.Queue()
 
-        base64Decode_thread = threading.Thread(target=base64_decode(base64Image,"decoded_image"))
+        base64Decode_thread = threading.Thread(target=base64_decode(base64Image, "decoded_image"))
         get_user_list_thread = threading.Thread(target=get_user_list_db, args=(q,))
 
         base64Decode_thread.start()
@@ -36,7 +36,7 @@ def access(base64Image):
         is_there_in_db = False
 
         for user in userList:
-            result = face_macthing(user.image_path)
+            result = face_matching(user.image_path)
             if result:
                 is_there_in_db = True
                 break
@@ -46,7 +46,7 @@ def access(base64Image):
         return "Error"
 
 
-def face_macthing(image_path):
+def face_matching(image_path):
     download_image_thread = threading.Thread(target=download_image(image_path))
     download_image_thread.start()
     download_image_thread.join()
