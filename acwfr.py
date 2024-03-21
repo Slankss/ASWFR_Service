@@ -20,7 +20,7 @@ def AccessRequest():
 
     if data is None or len(imageB64) == 0:
         return ""
-    result = FaceRecognition.access(data["image"])
+    result = FaceRecognition.access(imageB64)
     return str(result)
 
 @app.route("/Login")

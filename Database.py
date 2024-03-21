@@ -2,6 +2,7 @@ import firebase_admin
 from firebase_admin import credentials, firestore, storage
 from model import User
 
+
 credentialData = credentials.Certificate("key/serviceAccountKey.json")
 app = firebase_admin.initialize_app(credentialData, {'storageBucket': 'acwfrdb.appspot.com'})
 bucket = storage.bucket()
@@ -27,12 +28,11 @@ def getUserList():
     for doc in collection.stream():
         data = doc.to_dict()
 
-        user = User
-        user.name = data["name"]
-        user.surname = data["surname"]
-        user.company = data["company"]
-        user.image_path = data["image_path"]
-        #user = User(name, surname, company, image_path)
+        name = data["name"]
+        surname = data["surname"]
+        company = data["company"]
+        image_path = data["image_path"]
+        user = User.User(name, surname, company, image_path)
 
         userList.append(user)
 
