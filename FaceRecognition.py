@@ -47,7 +47,6 @@ def access(base64Image):
     except:
         return "Error"
 
-
 def face_matching(face_from_image,image_path):
     download_image_thread = threading.Thread(target=download_image(image_path))
     download_image_thread.start()
