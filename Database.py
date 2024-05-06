@@ -3,7 +3,7 @@ import threading
 
 import firebase_admin
 from firebase_admin import credentials, firestore, storage
-from model import User
+from model.User import User
 import uuid
 
 credentialData = credentials.Certificate("key/serviceAccountKey.json")
@@ -72,7 +72,7 @@ def getUserList():
         id = data["id"]
         company = data["company"]
         image_path = data["image_path"]
-        user = User.User(name, surname, id, company, image_path)
+        user = User(name, surname, id, company, image_path)
 
         userList.append(user)
 
