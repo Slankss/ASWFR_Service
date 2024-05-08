@@ -12,8 +12,6 @@ credentialData = credentials.Certificate("key/serviceAccountKey.json")
 app = firebase_admin.initialize_app(credentialData, {'storageBucket': 'acwfrdb.appspot.com'})
 bucket = storage.bucket()
 db = firebase_admin.firestore.client()
-managerCollection = db.collection("Manager")
-userCollection = db.collection("Users")
 
 
 def downloadImage(imagePath):
@@ -56,7 +54,7 @@ def deleteImage(imagePath, deleteImageFinish):
 
 def deleteUser(id, deleteUserFinish):
     try:
-        doc = userCollection.where("id", "==", id).get()[0]
+        doc = db.collection("Users").where("id", "==", id).get()[0]
         data = doc.to_dict()
         id = doc.id
         image_path = data["image_path"]
@@ -70,7 +68,7 @@ def deleteUser(id, deleteUserFinish):
         if (deleteImageFinish.get() == False):
             deleteUserFinish.put(False)
 
-        userCollection.document(id).delete()
+        db.collection("Users").document(id).delete()
         deleteUserFinish.put(True)
     except Exception as e:
         deleteUserFinish.put(False)
@@ -78,7 +76,7 @@ def deleteUser(id, deleteUserFinish):
 
 def getUserList(company_name):
     userList = list()
-    userQuery = userCollection.where("company","==",company_name)
+    userQuery = db.collection("Users").where("company","==",company_name)
     for doc in userQuery.stream():
         data = doc.to_dict()
 
@@ -96,6 +94,7 @@ def getUserList(company_name):
 
 def login(username, password):
     result = False
+    managerCollection = db.collection("Manager")
     for doc in managerCollection.stream():
         data = doc.to_dict()
         if data["username"] == username and data["password"] == password:
@@ -105,7 +104,7 @@ def login(username, password):
 
 def addUser(username, name, surname, addUserFinish):
     try:
-        managerQuery = managerCollection.where("username", "==", username).limit(1).get()
+        managerQuery = db.collection("Manager").where("username", "==", username).limit(1).get()
         if len(managerQuery) == 0:
             addUserFinish.put(False)
             return
@@ -114,7 +113,7 @@ def addUser(username, name, surname, addUserFinish):
         id = str(uuid.uuid4())
         image_path = "images/" + name + "_" + surname + ".jpg"
         user = {"name": name, "surname": surname, "id": id, "company": company, "image_path": image_path}
-        userCollection.add(user)
+        db.collection("Users").add(user)
         addUserFinish.put(True)
     except Exception as e:
         print("exception : " + str(e))
@@ -123,7 +122,7 @@ def addUser(username, name, surname, addUserFinish):
 
 def checkUser(name, surname, checkUserFinish):
     try:
-        userQuery = userCollection.where("name", "==", name).where("surname", "==", surname).limit(1).get()
+        userQuery = db.collection("Users").where("name", "==", name).where("surname", "==", surname).limit(1).get()
         checkUserFinish.put(len(userQuery) == 0)
     except Exception as e:
         checkUserFinish.put(False)
