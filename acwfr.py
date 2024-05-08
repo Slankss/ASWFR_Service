@@ -42,9 +42,12 @@ def Login():
     args = request.args
     username = args.get("username")
     password = args.get("password")
-    result = Database.login(username, password)
+    result = Database.login(str(username), str(password))
     message = ""
-    if (result): message = "Login succesfully"
+    if result:
+        message = "Login successfully"
+    else:
+        message = "Login Failed!"
     return response(result, message)
 
 
@@ -56,12 +59,20 @@ def AddUser():
     surname = data["surname"]
     image = data["image"]
 
+    checkUserFinish = queue.Queue()
     addUserFinish = queue.Queue()
     uploadImageFinish = queue.Queue()
 
-    base64DecodeThread = threading.Thread(target=ImageJob.base64_to_image(image, "added_image"))
-    addUserThread = threading.Thread(target=Database.addUser(username, name, surname, addUserFinish))
-    uploadImageThread = threading.Thread(target=Database.uploadImage(name + "_" + surname, uploadImageFinish))
+    checkUserFinishThread = threading.Thread(target=Database.checkUser, args=(name, surname, checkUserFinish))
+    base64DecodeThread = threading.Thread(target=ImageJob.base64_to_image, args=(image, "added_image"))
+    addUserThread = threading.Thread(target=Database.addUser, args=(username, name, surname, addUserFinish))
+    uploadImageThread = threading.Thread(target=Database.uploadImage, args=(name + "_" + surname, uploadImageFinish))
+
+    checkUserFinishThread.start()
+    checkUserFinishThread.join()
+
+    if not checkUserFinish.get():
+        return response(False, "There is same user with that name and surname!")
 
     base64DecodeThread.start()
     base64DecodeThread.join()
@@ -76,8 +87,8 @@ def AddUser():
 
 @app.route("/RemoveUser")
 def RemoveUser():
-    data = request.json
-    id = data["id"]
+    args = request.args
+    id = args.get("id")
 
     userDeleteFinish = queue.Queue()
     userDeleteThread = threading.Thread(target=Database.deleteUser(id, userDeleteFinish))
@@ -88,6 +99,15 @@ def RemoveUser():
     if userDeleteFinish.get() == False:
         return response(False, "User could not deleted")
     return response(True, "User deleted")
+
+@app.route("/GetUserList")
+def GetUserList():
+    args = request.args
+    companyName = args.get("company")
+    userList = Database.getUserList(companyName)
+
+    data = jsonify({"userlist": userList})
+    return data
 
 
 if __name__ == "__main__":
