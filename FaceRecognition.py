@@ -19,12 +19,12 @@ def get_user_list_db(q):
 
 def download_image(image_path):
     Database.downloadImage(image_path)
-def access(base64Image):
+def access(base64Image,company):
     try:
-        q = queue.Queue()
+        userListQueue = queue.Queue()
 
         base64Decode_thread = threading.Thread(target=base64_decode(base64Image, "decoded_image"))
-        get_user_list_thread = threading.Thread(target=get_user_list_db, args=(q,))
+        get_user_list_thread = threading.Thread(target=Database.getUserList, args=(company,userListQueue))
 
         base64Decode_thread.start()
         get_user_list_thread.start()
@@ -32,13 +32,13 @@ def access(base64Image):
         base64Decode_thread.join()
         get_user_list_thread.join()
 
-        userList = q.get()
+        userList = userListQueue.get()
         is_there_in_db = False
 
         face_from_image = find_face("src/decoded_image.jpg")
 
         for user in userList:
-            result = face_matching(face_from_image,user.image_path)
+            result = face_matching(face_from_image,user["image_path"])
             if result:
                 is_there_in_db = True
                 break

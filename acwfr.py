@@ -24,11 +24,13 @@ def SayHello():
 @app.route("/AccessRequest")
 def AccessRequest():
     data = request.json
+    args = request.args
+    company = args.get("company")
     imageB64 = data["image"]
 
     if data is None or len(imageB64) == 0:
         return jsonify({"status": False})
-    result = FaceRecognition.access(imageB64)
+    result = FaceRecognition.access(imageB64,company)
     message = ""
     if (result):
         message = "Access provided"
@@ -102,9 +104,11 @@ def RemoveUser():
 
 @app.route("/GetUserList")
 def GetUserList():
+    userListQueue = queue.Queue()
+
     args = request.args
     companyName = args.get("company")
-    userList = Database.getUserList(companyName)
+    userList = Database.getUserList(companyName,userListQueue)
 
     data = jsonify({"userlist": userList})
     return data

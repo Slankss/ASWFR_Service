@@ -75,9 +75,9 @@ def deleteUser(id, deleteUserFinish):
         deleteUserFinish.put(False)
 
 
-def getUserList(company_name):
+def getUserList(company,userListQueue):
     userList = list()
-    userQuery = db.collection("Users").where("company","==",company_name)
+    userQuery = db.collection("Users").where("company","==",company)
     for doc in userQuery.stream():
         data = doc.to_dict()
 
@@ -87,9 +87,9 @@ def getUserList(company_name):
         company = data["company"]
         image_path = data["image_path"]
 
-        user = { "id": id,"name": name,"surname": surname, "company":company}
+        user = { "id": id,"name": name,"surname": surname, "company":company,"image_path":image_path}
         userList.append(user)
-
+    userListQueue.put(userList)
     return userList
 
 
