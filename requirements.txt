@@ -3,6 +3,7 @@ opencv-python
 opencv-contrib-python
 face-recognition
 face-recognition-models
+Pillow
 firebase-admin
 flask
 google-cloud-storage

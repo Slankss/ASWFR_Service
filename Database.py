@@ -1,11 +1,12 @@
 import queue
 import threading
-import cv2
 import face_recognition
 import firebase_admin
 from firebase_admin import credentials, firestore, storage
 from model.User import User
 import uuid
+from PIL import Image
+import io
 
 credentialData = credentials.Certificate("key/serviceAccountKey.json")
 app = firebase_admin.initialize_app(credentialData, {'storageBucket': 'acwfrdb.appspot.com'})
@@ -32,10 +33,12 @@ def uploadImage(image_name, uploadImageFinish):
             top, right, bottom, left = face_location
 
             face_image = image[top:bottom, left:right]
-            cv2.imwrite("src/added_image.jpg",face_image)
-            #with open("src/added_image.jpg","wb") as f:
 
-            #    f.write(face_image)
+            # PIL Image objesine dönüştür
+            pil_image = Image.fromarray(face_image)
+
+            # Yeni dosyaya yaz
+            pil_image.save("src/added_image.jpg")
 
 
         blob = bucket.blob("images/" + image_name + ".jpg")
