@@ -26,7 +26,7 @@ def downloadImage(imagePath):
 
 def uploadImage(image_name, uploadImageFinish):
     try:
-        image = cv2.imread("src/added_image.jpg")
+        image = face_recognition.load_image_file("src/added_image.jpg")
         face_locations = face_recognition.face_locations(image)
 
         for face_location in face_locations:
