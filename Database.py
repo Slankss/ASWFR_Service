@@ -1,6 +1,6 @@
 import queue
 import threading
-
+import cv2
 import face_recognition
 import firebase_admin
 from firebase_admin import credentials, firestore, storage
@@ -32,15 +32,17 @@ def uploadImage(image_name, uploadImageFinish):
             top, right, bottom, left = face_location
 
             face_image = image[top:bottom, left:right]
+            cv2.imwrite("src/added_image.jpg",face_image)
+            #with open("src/added_image.jpg","wb") as f:
 
-            with open("src/added_image.jpg") as f:
-                f.write(face_image)
-            #cv2.imwrite("src/added_image.jpg", face_image)
+            #    f.write(face_image)
+
 
         blob = bucket.blob("images/" + image_name + ".jpg")
         blob.upload_from_filename("src/added_image.jpg")
         uploadImageFinish.put(True)
     except Exception as e:
+        print("exception : "+str(e))
         uploadImageFinish.put(False)
 
 
