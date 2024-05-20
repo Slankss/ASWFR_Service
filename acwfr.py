@@ -21,7 +21,7 @@ def SayHello():
     return "test route"
 
 
-@app.route("/AccessRequest")
+@app.route("/AccessRequest",methods = ["POST"])
 def AccessRequest():
     data = request.json
     args = request.args
