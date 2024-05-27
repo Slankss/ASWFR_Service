@@ -65,8 +65,6 @@ def AddUser():
 
     checkUserFinishThread = threading.Thread(target=Database.checkUser, args=(name, surname, checkUserFinish))
     base64DecodeThread = threading.Thread(target=ImageJob.base64_to_image, args=(image, "added_image"))
-    addUserThread = threading.Thread(target=Database.addUser, args=(username, name, surname, addUserFinish))
-    uploadImageThread = threading.Thread(target=Database.uploadImage, args=(name + "_" + surname, uploadImageFinish))
 
     checkUserFinishThread.start()
     checkUserFinishThread.join()
@@ -76,8 +74,17 @@ def AddUser():
 
     base64DecodeThread.start()
     base64DecodeThread.join()
-    addUserThread.start()
-    uploadImageThread.start()
+
+    addUserThread = threading.Thread(target=Database.addUser, args=(username, name, surname, addUserFinish))
+    uploadImageThread = threading.Thread(target=Database.uploadImage, args=(name + "_" + surname, uploadImageFinish))
+    face_from_image = FaceRecognition.find_face("src/decoded_image.jpg")
+
+    if face_from_image is None:
+        return response(False,"There is no face in the image")
+    else:
+        addUserThread.start()
+        uploadImageThread.start()
+
 
     result = addUserFinish.get() and uploadImageFinish.get()
     message = ""
