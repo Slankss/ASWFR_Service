@@ -9,6 +9,7 @@ def find_face(imagePath):
     face = face_recognition.face_encodings(image)
     if len(face) > 0:
         return face[0]
+    return None
 
 def base64_decode(base64Image, dest_image):
     ImageJob.base64_to_image(base64Image, dest_image)
@@ -24,28 +25,31 @@ def access(base64Image,company):
         userListQueue = queue.Queue()
 
         base64Decode_thread = threading.Thread(target=base64_decode(base64Image, "decoded_image"))
+        base64Decode_thread.start()
+        base64Decode_thread.join()
+
+        face_from_image = find_face("src/decoded_image.jpg")
+        if face_from_image is None:
+            return 0
+
         get_user_list_thread = threading.Thread(target=Database.getUserList, args=(company,userListQueue))
 
-        base64Decode_thread.start()
         get_user_list_thread.start()
-
-        base64Decode_thread.join()
         get_user_list_thread.join()
 
         userList = userListQueue.get()
-        is_there_in_db = False
+        is_there_in_db = -1
 
-        face_from_image = find_face("src/decoded_image.jpg")
 
         for user in userList:
             result = face_matching(face_from_image,user["image_path"])
             if result:
-                is_there_in_db = True
+                is_there_in_db = 1
                 break
-
         return is_there_in_db
-    except:
-        return "Error"
+    except Exception as e:
+        print(str(e))
+        return -1
 
 def face_matching(face_from_image,image_path):
     download_image_thread = threading.Thread(target=download_image(image_path))

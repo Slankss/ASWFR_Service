@@ -10,11 +10,7 @@ app = Flask(__name__)
 
 
 def response(status, message):
-    if len(message) == 0:
-        return jsonify({"status": status})
-    else:
-        return jsonify({"status": status, "message": message})
-
+    return jsonify({"status": status,"message":message})
 
 @app.route("/")
 def SayHello():
@@ -29,11 +25,13 @@ def AccessRequest():
     imageB64 = data["image"]
 
     if data is None or len(imageB64) == 0:
-        return jsonify({"status": False})
+        return jsonify({"status": 0})
     result = FaceRecognition.access(imageB64,company)
     message = ""
-    if (result):
+    if result == 1:
         message = "Access provided"
+    elif result == 0:
+        message = "There is no face in the image"
     else:
         message = "Access denied"
     return response(result, message)
