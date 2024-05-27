@@ -79,11 +79,11 @@ def AddUser():
     uploadImageThread = threading.Thread(target=Database.uploadImage, args=(name + "_" + surname, uploadImageFinish))
     face_from_image = FaceRecognition.find_face("src/decoded_image.jpg")
 
-    if face_from_image is None:
-        return response(False,"There is no face in the image")
-    else:
-        addUserThread.start()
-        uploadImageThread.start()
+    #if face_from_image is None:
+    #    return response(False,"There is no face in the image")
+    #else:
+    addUserThread.start()
+    uploadImageThread.start()
 
 
     result = addUserFinish.get() and uploadImageFinish.get()
