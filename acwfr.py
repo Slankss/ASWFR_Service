@@ -51,7 +51,7 @@ def Login():
     return response(result, message)
 
 
-@app.route("/AddUser")
+@app.route("/AddUser",methods = ["POST"])
 def AddUser():
     data = request.json
     username = data["username"]
